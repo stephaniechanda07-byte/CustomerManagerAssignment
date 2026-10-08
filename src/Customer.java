@@ -1,4 +1,4 @@
-package com.example.customermanager;
+package org.example;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

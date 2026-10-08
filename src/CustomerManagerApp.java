@@ -1,4 +1,4 @@
-package com.example.customermanager;
+package org.example;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -55,9 +55,8 @@ public class CustomerManagerApp extends Application {
         provinceBox = new ComboBox<>();
         provinceBox.setPromptText("Select Province");
         provinceBox.getItems().addAll(
-                "Alberta", "British Columbia", "Manitoba", "New Brunswick",
-                "Newfoundland and Labrador", "Nova Scotia", "Ontario",
-                "Prince Edward Island", "Quebec", "Saskatchewan"
+                "Central", "Copperbelt", "Eastern", "Luapula", "Lusaka",
+                "Muchinga", "Northern", "North-Western", "Southern", "Western"
         );
         provinceLabel.setLabelFor(provinceBox);
 

@@ -1,17 +1,86 @@
 package org.example;
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 public class Main {
-    static void main() {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        IO.println(String.format("Hello and welcome!"));
+    private static ArrayList<String> customers =  new ArrayList<>();
+    private static final DefaultListModel<String> listModel = new DefaultListModel<>();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(Main::createWindow);
+    }
+    private static void createWindow(){
+        JFrame frame = new JFrame("Customer Manager");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500,400);
+        frame.setLayout(new BorderLayout(10, 10));
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            IO.println("i = " + i);
-        }
+        //Top panel-input form
+        JPanel inputPanel= new JPanel(new GridLayout(3,2,10,10));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
+        JLabel nameLabel= new JLabel("Name");
+        JTextField nameField = new JTextField();
+
+        JLabel provinceLabel = new JLabel("Province");
+        JTextField provinceField = new JTextField();
+
+        JButton saveButton =new JButton("Save customer");
+        JButton clearButton = new JButton("Clear");
+
+        inputPanel.add(nameLabel);
+        inputPanel.add(nameField);
+        inputPanel.add(provinceLabel);
+        inputPanel.add(provinceField);
+        inputPanel.add(saveButton);
+        inputPanel.add(clearButton);
+
+        //Clear panel = List of customers
+        JList<String> customerList = new JList<>(listModel);
+        JScrollPane scrollPane = new JScrollPane(customerList);
+    scrollPane.setBorder(BorderFactory.createTitledBorder("Saved Customer"));
+
+        //Bottom label
+        JLabel statusLabel = new JLabel("Enter customer details above");
+    statusLabel.setBorder(BorderFactory.createEmptyBorder(5,15,10,15));
+
+        //Button actions
+        saveButton.addActionListener(e ->{
+            String name = nameField.getText().trim();
+            String province = provinceField.getText().trim();
+            if(name.isEmpty() || province.isEmpty()){
+                JOptionPane.showMessageDialog(frame, "please enter both Name and Province!", "Error",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String customer = name +"-"+ province;
+            customers.add(customer);
+            listModel.addElement(customer);
+
+            statusLabel.setText("Saved:" + customer);
+            nameField.setText("");
+            provinceField.setText("");
+            nameField.requestFocus();
+        });
+
+        clearButton.addActionListener(e->{
+            nameField.setText("");
+            provinceField.setText("");
+            statusLabel.setText("Cleared");
+        });
+        frame.add(inputPanel, BorderLayout.NORTH);
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(statusLabel, BorderLayout.SOUTH);
+
+        frame.setLocationRelativeTo(null); // Center on screen
+        frame.setVisible(true);
+
+    }
+
+    public static ArrayList<String> getCustomers() {
+        return customers;
+    }
+
+    public static void setCustomers(ArrayList<String> customers) {
+        Main.customers = customers;
     }
 }
